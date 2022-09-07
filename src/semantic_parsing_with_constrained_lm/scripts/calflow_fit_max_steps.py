@@ -12,7 +12,7 @@ The script does 10-fold cross-validation to find a slope and intercept which:
 Example invocation:
 python semantic_parsing_with_constrained_lm/scripts/calflow_fit_max_steps.py \
     --data-path semantic_parsing_with_constrained_lm/domains/calflow/data/train_300_stratified.jsonl \
-    --tokenizer facebook/bart-large \
+    --tokenizer facebook/bart-base \
     --output-type canonicalUtterance  # or "lispress"
 """
 import pathlib

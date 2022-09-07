@@ -75,6 +75,8 @@ def build_config(
             test_data = cached_read_calflow_jsonl(
                 CALFLOW_EXAMPLES_DIR / "test_200_uniform.jsonl", output_type
             )
+            test_data = test_data[:4]
+            train_data = train_data[:4]
         elif eval_split == EvalSplit.TrainSubset:
             # Select a subset not already present in train
             ids_train_300 = set()
@@ -179,14 +181,7 @@ def build_config(
             )
     elif eval_split == EvalSplit.DevSubset:
         if use_gpt3:
-            add_exp_to_dict(result, "constrained", CalflowOutputLanguage.Canonical, 20)
-            add_exp_to_dict(result, "constrained", CalflowOutputLanguage.Lispress, 20)
-            add_exp_to_dict(
-                result, "unconstrained-greedy", CalflowOutputLanguage.Canonical, 20
-            )
-            add_exp_to_dict(
-                result, "unconstrained-greedy", CalflowOutputLanguage.Lispress, 20
-            )
+            add_exp_to_dict(result, "constrained", CalflowOutputLanguage.Canonical, 3)
         else:
             add_exp_to_dict(result, "constrained", CalflowOutputLanguage.Canonical, 0)
             add_exp_to_dict(result, "constrained", CalflowOutputLanguage.Lispress, 0)

@@ -36,7 +36,7 @@ from transformers import GPT2Tokenizer
 
 from semantic_parsing_with_constrained_lm.async_tools import limits
 from semantic_parsing_with_constrained_lm.async_tools.batch_helper import BatchingHelper, BatchMaker
-from semantic_parsing_with_constrained_lm.cache import CacheClient
+from semantic_parsing_with_constrained_lm.cache import CacheClient, RedisCacheClient
 from semantic_parsing_with_constrained_lm.lm import IncrementalLanguageModel, TokensWithLogprobs
 from semantic_parsing_with_constrained_lm.tokenization import ClampTokenizer, GPT2ClampTokenizer
 
@@ -44,10 +44,10 @@ try:
     from semantic_parsing_with_constrained_lm.internal.cosmos_db_client import make_default_client
     from semantic_parsing_with_constrained_lm.internal.gpt3 import adjust_tokenizer
 except ImportError:
-    make_default_client = lambda: None
+    make_default_client = lambda: RedisCacheClient()
     adjust_tokenizer = lambda _1, _2: None
 
-default_engine = os.environ.get("OPENAI_GPT3_ENGINE", "text-davinci-001")
+default_engine = os.environ.get("OPENAI_GPT3_ENGINE", "code-cushman-002")
 
 
 @dataclass
