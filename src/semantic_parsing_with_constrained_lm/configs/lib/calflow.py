@@ -10,6 +10,7 @@ from semantic_parsing_with_constrained_lm.scfg.read_grammar import PreprocessedG
 from semantic_parsing_with_constrained_lm.configs.lib.common import (
     PromptOrder,
     SeparateLM,
+    DefaultLM,
     make_semantic_parser,
 )
 from semantic_parsing_with_constrained_lm.datum import Datum
@@ -55,7 +56,7 @@ calflow_max_steps_fn_params: Dict[
     # python semantic_parsing_with_constrained_lm/scripts/calflow_fit_max_steps.py \
     # --data-path \
     # semantic_parsing_with_constrained_lm/domains/calflow/data/train_300_stratified.jsonl \
-    # --tokenizer facebook/bart-large --output-type canonicalUtterance \
+    # --tokenizer facebook/bart-base --output-type canonicalUtterance \
     # --max-unreachable 3
     (CalflowOutputLanguage.Canonical, ClientType.BART): (8, 1.7233333333),
     # python semantic_parsing_with_constrained_lm/scripts/calflow_fit_max_steps.py \
@@ -68,7 +69,7 @@ calflow_max_steps_fn_params: Dict[
     # python semantic_parsing_with_constrained_lm/scripts/calflow_fit_max_steps.py \
     # --data-path \
     # semantic_parsing_with_constrained_lm/domains/calflow/data/train_300_stratified.jsonl \
-    # --tokenizer facebook/bart-large --output-type lispress \
+    # --tokenizer facebook/bart-base --output-type lispress \
     # --max-unreachable 3
     (CalflowOutputLanguage.Lispress, ClientType.BART): (65, 7.084487179487172),
     # python semantic_parsing_with_constrained_lm/scripts/calflow_fit_max_steps.py \
@@ -143,7 +144,7 @@ def make_semantic_parser_for_calflow(
         partial_parse_builder,
         max_steps_fn=max_steps_fn,
         prompt_order=prompt_order,
-        similarity_method=SeparateLM(similarity_lm=similarity_lm),  # type: ignore
+        similarity_method=SeparateLM(similarity_lm=similarity_lm) if similarity_lm else DefaultLM(),  # type: ignore
         prompt_builder=prompt_builder,
         num_examples_per_prompt=num_examples_per_prompt,
         problem_factory_builder=problem_factory_builder,
